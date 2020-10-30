@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+@model FilmsApp.ViewModels.FilmViewModel
+@{
+    ViewBag.Title = "Редактирование фильма";
+}
+
+@if ((User.Identity.IsAuthenticated) && (userManager.GetUserId(User) == Model.Creator))
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8">
+                <form class="needs-validation" asp-route-id="@Model.Id" asp-action="edit" asp-controller="home" enctype="multipart/form-data" novalidate>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Название</label>
+                        <input type="text" asp-for="Name" class="form-control" value="@Model.Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="About" class="control-label">Описание</label>
+                        <textarea type="text" asp-for="About" class="form-control" value="@Model.About" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Year" class="control-label">Год выпуска</label>
+                        <input type="number" asp-for="Year" class="form-control" value="@Model.Year" required />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Author" class="control-label">Режиссёр</label>
+                        <input type="text" asp-for="Author" class="form-control" value="@Model.Author" required />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Poster" class="control-label">Постер (оставьте поле пустым, если изменение постера не требуется)</label>
+                        <input asp-format="" type="file" asp-for="Poster" class="form-control h-100" accept="image/gif,image/jpeg,image/pjpeg,image/png,image/svg+xml,image/tiff,image/vnd.wap.wbmp,image/webp" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Изменить" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <img class="img-fluid" src="@Model.Poster.Name" />
+            </div>
+        </div>
+    </div>
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    <h5>Нам нужно что-нибудь знать о Вас, авторизуйтесь, пожалуйста :)</h5>
+}

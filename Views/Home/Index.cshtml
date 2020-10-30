@@ -1,0 +1,26 @@
+﻿@model FilmsApp.ViewModels.IndexViewModel
+@*подключаем все tag-хелперы*@
+@addTagHelper *, FilmsApp
+
+@{
+    ViewBag.Title = "Каталог фильмов";
+}
+
+<div class="container">
+    <div class="row justify-content-center pb-3">
+        @foreach (var item in Model.Films)
+        {
+            <div class="card bg-light" style="width: 18rem;">
+                @*<img class="card-img-top" src="@item.PosterPath" />*@
+                <div class="card-body">
+                    <h5 class="card-title text-dark">@item.Name (@item.Year)</h5>
+                    <p class="card-text text text-dark">@item.About</p>
+                    <a asp-route-id="@item.Id" asp-action="Details" asp-controller="Home" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row justify-content-center">
+        <page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
+    </div>
+</div>
